@@ -1,6 +1,7 @@
-import React from 'react'
+import React from "react";
 
-const pizzaData = [
+// const pizzaData =
+[
   {
     name: "Focaccia",
     ingredients: "Bread with italian olive oil and rosemary",
@@ -45,17 +46,45 @@ const pizzaData = [
   },
 ];
 
-
 function App() {
   return (
     <div>
-      <h1>Pizza Menu</h1>
+      <Header />
+      <Menu />
+      <Footer />
+    </div>
+  );
+}
+
+function Header() {
+  return (
+    <div>
+      <h1>Fast React Pizza Co.</h1>
+    </div>
+  );
+}
+
+function Menu() {
+  return (
+    <div>
+      <h2>Our menu</h2>
       <Pizza />
       <Pizza />
       <Pizza />
     </div>
+  );
+}
 
-  )
+function Footer() {
+  const hour = new Date().getHours();
+  const open = 9;
+  const close = 22;
+
+  return (
+    <div>
+      {new Date().toLocaleTimeString()}. We're currently open
+    </div>
+  );
 }
 
 function Pizza() {
@@ -68,4 +97,4 @@ function Pizza() {
   );
 }
 
-export default App
+export default App;
