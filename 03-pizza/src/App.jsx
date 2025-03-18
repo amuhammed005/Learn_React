@@ -1,4 +1,5 @@
 import React from "react";
+import "./index.css";
 
 // const pizzaData =
 [
@@ -48,25 +49,25 @@ import React from "react";
 
 function App() {
   return (
-    <div>
+    <main className="container">
       <Header />
       <Menu />
       <Footer />
-    </div>
+    </main>
   );
 }
 
 function Header() {
   return (
-    <div>
+    <header className="header">
       <h1>Fast React Pizza Co.</h1>
-    </div>
+    </header>
   );
 }
 
 function Menu() {
   return (
-    <div>
+    <div className="menu">
       <h2>Our menu</h2>
       <Pizza />
       <Pizza />
@@ -81,9 +82,9 @@ function Footer() {
   const close = 22;
 
   return (
-    <div>
+    <footer className="footer">
       {new Date().toLocaleTimeString()}. We're currently open
-    </div>
+    </footer>
   );
 }
 
@@ -91,7 +92,7 @@ function Pizza() {
   return (
     <div>
       <img src="pizzas/spinaci.jpg" alt="Pizza Spinaci" />
-      <h2>Pizza Spinaci</h2>
+      <h3>Pizza Spinaci</h3>
       <p>Tomato, mozarella, spinach, and ricotta cheese</p>
     </div>
   );
