@@ -1,6 +1,12 @@
 import './index.css'
 
-// const skillData = ["Java", "C++", "JavaScript", "Scripting", "Python"]
+const skillData = [
+  { name: "React", emoji: "💪", color: "blue" },
+  { name: "C++", emoji: "👊", color: "red" },
+  { name: "JavaScript", emoji: "💪", color: "yellow" },
+  { name: "Scripting", emoji: "👋", color: "pink" },
+  { name: "Python", emoji: "👊", color: "green" },
+];
 
 function App(){
   return <div className='card'>
@@ -37,19 +43,24 @@ function Intro() {
 function SkillList() {
   return (
     <div className="skill-list">
-      <Skill skill={"React"} emoji={"💪"} color={"blue"} />
-      <Skill skill={"Python"} emoji={"👊"} color={"yellow"} />
-      <Skill skill={"Html + CSS"} emoji={"💪"} color={"red"} />
-      <Skill skill={"Node.js"} emoji={"👋"} color={"green"} />
+      {
+        skillData.map(skill=><Skill name={skill.name} emoji={skill.emoji} color={skill.color}/>)
+      }
     </div>
+    // <div className="skill-list">
+    //   <Skill skill={"React"} emoji={"💪"} color={"blue"} />
+    //   <Skill skill={"Python"} emoji={"👊"} color={"yellow"} />
+    //   <Skill skill={"Html + CSS"} emoji={"💪"} color={"red"} />
+    //   <Skill skill={"Node.js"} emoji={"👋"} color={"green"} />
+    // </div>
   );
 }
 
-function Skill(props){
+function Skill({name, emoji, color}){
   return (
-    <div className='skill' style={{backgroundColor: props.color}}>
-      <span>{props.skill}</span>
-      <span>{props.emoji}</span>
+    <div className='skill' style={{backgroundColor: color}}>
+      <span>{name}</span>
+      <span>{emoji}</span>
     </div>
   );
 }
