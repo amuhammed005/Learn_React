@@ -1,8 +1,7 @@
 import React from "react";
 import "./index.css";
 
-// const pizzaData =
-[
+const pizzaData = [
   {
     name: "Focaccia",
     ingredients: "Bread with italian olive oil and rosemary",
@@ -69,7 +68,12 @@ function Menu() {
   return (
     <div className="menu">
       <h2>Our menu</h2>
-      <Pizza
+      <ul className="pizzas">
+        {
+          pizzaData.map(pizzaObj=><Pizza pizzaObj={pizzaObj} key={pizzaObj.name} />)
+        }
+      </ul>
+      {/* <Pizza
         name="Pizza Spinaci"
         ingredients="Tomato, mozarella, spinach, and ricotta cheese"
         price={10}
@@ -80,25 +84,21 @@ function Menu() {
         ingredients="Tomato, mozarella, mushrooms, and onion"
         price={13.5}
         image="pizzas/funghi.jpg"
-      />
-      <Pizza
-        name="Pizza Spinaci"
-        ingredients="Tomato, mozarella, spinach, and ricotta cheese"
-        price={10}
-        image="pizzas/spinaci.jpg"
-      />
+      /> */}
     </div>
   );
 }
 
 function Pizza(props) {
   return (
-    <div>
-      <img src={props.image} alt={props.name} />
-      <h3>{props.name}</h3>
-      <p>{props.ingredients}</p>
-      <span>{props.price}</span>
-    </div>
+    <li className="pizza">
+      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <div className="">
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>{props.pizzaObj.price}</span>
+      </div>
+    </li>
   );
 }
 
@@ -109,7 +109,10 @@ function Footer() {
 
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()}. We're currently open
+      {new Date().toLocaleTimeString()}.{" "}
+      {hour >= open && hour < close
+        ? "We're currently open"
+        : "We're currently closed"}
     </footer>
   );
 }
