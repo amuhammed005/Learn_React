@@ -120,16 +120,27 @@ function Footer() {
     <footer className="footer">
       <div className="order">
         {isOpen ? (
-          `We are open until ${closeHour}:00. Come visit us or Order online.`
+          <Order closeHour={closeHour} openHour={openHour} />
         ) : (
           <p>
-            We're happy to welcome you from {openHour}:00 to {closeHour}:00. Thank you for trusting us!` 
+            We're happy to welcome you from {openHour}:00 to {closeHour}:00.
+            Thank you for trusting us!`
           </p>
         )}
         <button className="btn">Order</button>
       </div>
     </footer>
   );
+}
+
+function Order({closeHour}){
+  return (
+    <div>
+      <p>
+        We are open until ${closeHour}:00. Come visit us or Order online.
+      </p>
+    </div>
+  )
 }
 
 
