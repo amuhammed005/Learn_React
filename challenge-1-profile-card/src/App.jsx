@@ -1,11 +1,11 @@
 import './index.css'
 
 const skillData = [
-  { name: "React", emoji: "💪", color: "blue" },
-  { name: "C++", emoji: "👊", color: "red" },
-  { name: "JavaScript", emoji: "💪", color: "yellow" },
-  { name: "Scripting", emoji: "👋", color: "pink" },
-  { name: "Python", emoji: "👊", color: "green" },
+  { name: "React", level: "intermediate", color: "blue" },
+  { name: "HTML+CSS", level: "advanced", color: "red" },
+  { name: "Scripting", level: "beginner", color: "pink" },
+  { name: "Python", level: "intermediate", color: "green" },
+  { name: "JavaScript", level: "advanced", color: "yellow" },
 ];
 
 function App(){
@@ -44,7 +44,7 @@ function SkillList() {
   return (
     <div className="skill-list">
       {
-        skillData.map(skill=><Skill name={skill.name} emoji={skill.emoji} color={skill.color}/>)
+        skillData.map(skill=><Skill name={skill.name} level={skill.level} color={skill.color}/>)
       }
     </div>
     // <div className="skill-list">
@@ -56,11 +56,15 @@ function SkillList() {
   );
 }
 
-function Skill({name, emoji, color}){
+function Skill({name, level, color}){
   return (
-    <div className='skill' style={{backgroundColor: color}}>
+    <div className="skill" style={{ backgroundColor: color }}>
       <span>{name}</span>
-      <span>{emoji}</span>
+      <span>
+        {level === "intermediate" && "👊"}
+        {level === "advanced" && "💪"}
+        {level === "beginner" && "👋"}
+      </span>
     </div>
   );
 }
