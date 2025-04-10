@@ -69,6 +69,21 @@ body {
   width: 5rem;
 }
 
-.reset-btn{
+.is-open{
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  align-self: flex-end;
+  margin-right: 5rem;
+  margin-bottom: 2rem;
+  margin-top: 5rem;
+  border: none;
+}
 
+.is-open button{
+  border: none;
+  cursor: pointer;
+  background-color: inherit;
+  font-weight: bold;
+  font-size: large;
 }

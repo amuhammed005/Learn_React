@@ -9,15 +9,14 @@ const messages = [
 
 function App() {
   const [step, setStep] = useState(1)
+  const [isOpen, setIsOpen] = useState(true)
   const [reset, setReset] = useState(false)
 
   function previousStep(){
-    setStep(step => step - 1)
-    if (step <= 1) setStep(3)
+    if (step < 3) setStep(step - 1);
   }
   function nextStep(){
-    setStep(step => step + 1)
-    if (step >= 3) setStep(1)
+    if (step > 1) setStep(step + 1)
   }
 
   function resetState(){
@@ -25,9 +24,18 @@ function App() {
     setStep(1)
   }
 
+  function handleIsOpen(){
+    setIsOpen(!isOpen)
+  }
+
   return (
-    <div className="steps">
       <>
+          <div className="is-open">
+            <button onClick={handleIsOpen}>{isOpen ? "❌" : "✖"}</button>
+          </div>
+      { 
+      isOpen &&     
+      <div className="steps">
         {!reset ? (
           <>
             <div className="numbers">
@@ -64,8 +72,10 @@ function App() {
             {!reset ? "Reset" : "Home"}
           </button>
         </div>
-      </>
+       
     </div>
+      }
+    </> 
   );
 }
 
