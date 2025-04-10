@@ -13,9 +13,11 @@ function App() {
 
   function previousStep(){
     setStep(step => step - 1)
+    if (step <= 1) setStep(3)
   }
   function nextStep(){
     setStep(step => step + 1)
+    if (step >= 3) setStep(1)
   }
 
   function resetState(){
