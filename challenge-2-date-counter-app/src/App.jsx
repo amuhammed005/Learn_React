@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import './index.css';
 
 function App() {
   const [step, setStep] = useState(0)
@@ -24,12 +25,13 @@ function App() {
 
   return (
     <div className='app'>
-      <div className='step'>
+      <h2>Date Counter App</h2>
+      <div className='count'>
         <button onClick={handlePrevStep}>-</button>
         <span>Step: {step}</span>
         <button onClick={handleNextStep}>+</button>
       </div>
-      <div className='step'>
+      <div className='count'>
         <button onClick={handlePrevCount}>-</button>
         <span>Count: {count}</span>
         <button onClick={handleNextCount}>+</button>
