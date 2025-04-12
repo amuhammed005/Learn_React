@@ -32,7 +32,9 @@ function Counter() {
   return (
     <div className="count-container">
       <div className="range">
+        <label htmlFor="step-range">Step size: </label>
         <input
+          id="step-range"
           type="range"
           min="1"
           max="10"
@@ -43,26 +45,42 @@ function Counter() {
       </div>
 
       <div className="count-group">
-        <button onClick={handlePrev}>-</button>
+        <button onClick={handlePrev} disabled={count <= -100}>
+          -
+        </button>
         <input
-          type="text"
+          type="number"
           value={count}
-          onChange={(e) => setCount(Number(e.target.value))}
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            if (!isNaN(value)) setCount(value);
+          }}
         />
-        <button onClick={handleNext}>+</button>
+        <button onClick={handleNext} disabled={count >= 100}>
+          +
+        </button>
       </div>
-      <div className="message">
-        <p>{count === 0 && `Today is ${newdate}`}</p>
-        <p>
-          {count < 0 &&
-            `${count * -1} ${count == -1 ? "day" : "days"} ago was ${newdate}`}
-        </p>
-        <p>
-          {count > 0 &&
-            `${count} ${count == 1 ? "day" : "days"} from today is ${newdate}`}
-        </p>
-      </div>
-      <div>
+
+      <p className="step-feedback">
+        You’re moving by {step} {step === 1 ? "day" : "days"}.
+      </p>
+
+      <div className="results">
+        <div className="message">
+          <p>{count === 0 && `Today is ${newdate}`}</p>
+          <p>
+            {count < 0 &&
+              `${count * -1} ${
+                count == -1 ? "day" : "days"
+              } ago was ${newdate}`}
+          </p>
+          <p>
+            {count > 0 &&
+              `${count} ${
+                count == 1 ? "day" : "days"
+              } from today is ${newdate}`}
+          </p>
+        </div>
         {(count !== 0 || step !== 1) && (
           <button onClick={handleReset}>Reset</button>
         )}

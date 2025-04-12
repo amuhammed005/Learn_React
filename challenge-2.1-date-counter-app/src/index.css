@@ -1,4 +1,153 @@
-*{
+/* General Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+/* Container */
+.count-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  width: 30rem;
+  margin-inline: auto;
+  /* max-width: 500px; */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Step slider */
+.range {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.range label {
+  font-weight: bold;
+}
+
+.range input[type='range'] {
+  flex: 1;
+  cursor: pointer;
+}
+
+/* Counter group */
+.count-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.count-group button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.count-group button:hover:not(:disabled) {
+  background-color: #2980b9;
+}
+
+.count-group button:disabled {
+  background-color: #d0d7de;
+  cursor: not-allowed;
+}
+
+.count-group input[type='number'] {
+  width: 80px;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Feedback */
+.step-feedback {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Date result section */
+.results {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.message p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Reset button */
+.results button {
+  margin-top: 1rem;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.results button:hover {
+  background-color: #c0392b;
+}
+
+/* Optional animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .count-container {
+    padding: 1.5rem;
+  }
+
+  .count-group input[type='number'] {
+    width: 60px;
+  }
+}
+
+
+
+/* *{
     box-sizing: border-box;
 }
 
@@ -17,6 +166,4 @@ body{
     padding: 1.2rem;
     border-radius: .6rem;
     border: 1px solid #e7e7e7;
-}
-
-.
+} */
