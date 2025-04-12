@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './index.css'
 
 const initialItems = [
@@ -23,16 +23,45 @@ function Logo(){
 }
 
 function Form(){
+  const [description, setDescription] = useState("")
+  const [quantity, setQuantity] = useState(1)
+
+  function handleSubmit(e){
+    e.preventDefault()
+    // console.log(e)
+    if (!description) return; 
+    
+    const newItem = {
+      description: description,
+      quantity: quantity,
+      packed: false,
+      id: Date.now()
+    }
+
+    setDescription("")
+    setQuantity(1)
+    console.log(newItem)
+  }
+
   return (
-    <form className='add-form'>
+    <form className="add-form" onSubmit={handleSubmit}>
       <h3>What do you need for your 😍 trip?</h3>
-      <select name="" id="">
-        {Array.from({length: 20}, (_, i)=>i+1).map(num=>(<option value={num} key={num}>{num}</option>))}
+      <select value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}>
+        {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
+          <option value={num} key={num}>
+            {num}
+          </option>
+        ))}
       </select>
-      <input type="text" placeholder='Item...' />
+      <input
+        type="text"
+        placeholder="Item..."
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
       <button>Add</button>
     </form>
-  )
+  );
 }
 function PackingList(){
   return (
@@ -45,7 +74,9 @@ function Item({item}){
   return (
     <li className=''>
       <input type="checkbox" />
+      <span style={item.packed ? {textDecoration: "line-through"}: {}}> 
       {item.description} {item.quantity}
+      </span>
       <button>❌</button>
     </li>
   )
