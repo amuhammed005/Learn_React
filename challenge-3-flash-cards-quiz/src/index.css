@@ -26,6 +26,8 @@ div.card{
     justify-content: center;
     text-align: center;
     padding: 1rem;
+    transition: all 0.2s ease; 
+
 }
 
 
