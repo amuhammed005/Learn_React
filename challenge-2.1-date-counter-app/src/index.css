@@ -1,0 +1,22 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    font-family: sans-serif;
+    color: #333;
+}
+
+.count-container{
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f7f7;
+    margin-top: 2rem;
+    margin-inline: auto;
+    padding: 1.2rem;
+    border-radius: .6rem;
+    border: 1px solid #e7e7e7;
+}
+
+.
