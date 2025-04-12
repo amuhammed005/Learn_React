@@ -14,7 +14,7 @@ body{
     gap: 1.2rem;
 }
 
-.card{
+div.card{
     box-shadow: 1px 1px 5px #999;
     background-color: #f7f7f7;
     /* border: 1px solid #e7e7e7; */
@@ -23,13 +23,13 @@ body{
     aspect-ratio: 2/1;
     display: flex;
     align-items: center;
-    justify-items: center;
+    justify-content: center;
     text-align: center;
     padding: 1rem;
 }
 
 
-div.selected {
+.card.selected {
   border: 1px solid #e03131;
   background-color: #e03131;
   color: #fff;

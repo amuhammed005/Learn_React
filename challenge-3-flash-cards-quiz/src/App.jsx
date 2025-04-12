@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 function App() {
   return (
@@ -45,19 +45,30 @@ const questions = [
 ];
 
 function Flashcards(){
+  const [selectedId, setSelectedId] = useState(null);
+  
+  function handleSelection(id){
+    setSelectedId(id !== selectedId ? id : null)
+  }
+
   return (
     <div className='flashcards'>
       {questions.map((question) => (
-        <Card question={question} key={question.id} />
+        <Card question={question} selectedId={selectedId} onSelect={handleSelection} key={question.id} />
       ))}
     </div>
   );
 }
 
-function Card({ question }) {
+function Card({ question, selectedId, onSelect }) {
+  const isSeleted = question.id === selectedId
+
   return (
-    <div className='card'>
-      {question.question}
-    </div>
+      <div
+        className={`card ${isSeleted ? "selected" : ""}`}
+        onClick={() => onSelect(question.id)}
+      >
+        {isSeleted ? question.answer : question.question}
+      </div>
   );
 }
