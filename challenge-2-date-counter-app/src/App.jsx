@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import './index.css';
 
 function App() {
-  const [step, setStep] = useState(0)
-  const [count, setCount] = useState(step)
+  const [step, setStep] = useState(1)
+  const [count, setCount] = useState(0)
 
   function handlePrevStep(){
     setStep(s=>s-1)
@@ -37,7 +37,7 @@ function App() {
         <button onClick={handleNextCount}>+</button>
       </div>
       <div className='message'>
-        <p>{count == 0 && `Today is ${displayDate}`}</p>
+        <p>{count === 0 && `Today is ${displayDate}`}</p>
         <p>
           {count < 0 &&
             `${count * -1} ${
