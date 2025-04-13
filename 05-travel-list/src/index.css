@@ -5,7 +5,7 @@ const initialItems = [
 ];
 */
 
-@import url("https://fonts.googleapis.com/css2?family=Monoton&family=Quicksand:wght@500;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Monoton&family=Quicksand:wght@500;700&display=swap");
 
 * {
   margin: 0;
@@ -116,6 +116,31 @@ input {
   gap: 1.2rem;
 }
 
+.list button {
+  padding: .6rem 1.2rem;
+  margin-left: .6rem;
+}
+
+.btn {
+  padding: 8px 12px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.clear-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.export-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+
 input[type="checkbox"] {
   height: 2rem;
   width: 2rem;
@@ -136,4 +161,211 @@ input[type="checkbox"] {
   text-align: center;
   font-weight: 700;
   padding: 3.2rem 0;
+} */
+
+
+
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap");
+
+:root {
+  --primary-color: #4caf50;
+  --secondary-color: #ffffff;
+  --accent-color: #ff9800;
+  --dark-color: #2e2e2e;
+  --light-bg: #f9f9f9;
+  --danger-color: #f44336;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: "Quicksand", sans-serif;
+  color: var(--dark-color);
+  background-color: var(--light-bg);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.logo {
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 4rem;
+  text-align: center;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.add-form {
+  background-color: var(--accent-color);
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-form h3 {
+  font-size: 2rem;
+  color: white;
+}
+
+.add-form input,
+.add-form select,
+.add-form button {
+  padding: 1rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 1.6rem;
+}
+
+.add-form input,
+.add-form select {
+  width: 160px;
+}
+
+.add-form button {
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-form button:hover {
+  background-color: #388e3c;
+}
+
+.list {
+  flex: 1;
+  padding: 2rem;
+  margin: 2rem;
+  background-color: white;
+  box-shadow: var(--shadow);
+  border-radius: 8px;
+}
+
+.list ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 5rem;
+}
+
+.list li {
+  background-color: var(--light-bg);
+  padding: 1.2rem;
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+input[type="checkbox"] {
+  width: 1.8rem;
+  height: 1.8rem;
+  accent-color: var(--accent-color);
+}
+
+.list li span {
+  flex-grow: 1;
+  font-size: 1.5rem;
+}
+
+.list li button {
+  font-size: 2rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--danger-color);
+}
+
+.list div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.list select,
+.list button {
+  padding: 0.8rem 1.6rem;
+  font-size: 1.4rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.clear-btn {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.export-btn {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.list button:hover,
+.list select:hover {
+  opacity: 0.9;
+}
+.list .clear-storage:hover{
+  background-color: #e3e5e7;
+}
+
+.stats {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  border-top: 2px solid var(--accent-color);
+}
+
+/* RESPONSIVENESS */
+@media (max-width: 768px) {
+  .add-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-form input,
+  .add-form select,
+  .add-form button {
+    width: 100%;
+  }
+
+  .list ul {
+    grid-template-columns: 1fr;
+  }
+
+  .list div {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .list select,
+  .list button {
+    width: 100%;
+  }
+}
+

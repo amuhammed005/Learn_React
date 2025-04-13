@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './index.css'
 
 /* const initialItems = [
@@ -8,8 +8,12 @@ import './index.css'
 ]; */
 
 export default function App() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(() => {
+    const storedItems = localStorage.getItem("items");
+    return storedItems ? JSON.parse(storedItems) : [];
+  });
 
+  
   function handleAddItem(item) {
     setItems((items) => [...items, item]);
   }
@@ -26,6 +30,18 @@ export default function App() {
     setItems(items=>items.filter(item=>item.id !== id))
   }
 
+  function handleClearStorage(){
+    const confirmClear = window.confirm("Are you sure you want to clear storage? ")
+    if (confirmClear){
+      localStorage.removeItem("items");
+      setItems([])
+    }
+  }
+
+  useEffect(()=>{
+    localStorage.setItem("items", JSON.stringify(items));
+  }, [items])
+  
   return (
     <div className="app">
       <Logo />
@@ -35,6 +51,7 @@ export default function App() {
         setItems={setItems}
         onDelete={handleDeleteItem}
         onTogglePacked={handleTogglePacked}
+        onClearStorage={handleClearStorage}
       />
       <Stats items={items} />
     </div>
@@ -88,8 +105,14 @@ function Form({onAddItem}){
     </form>
   );
 }
-function PackingList({ items, onTogglePacked, onDelete, setItems }) {
-  const [sortBy, setSortBy] = useState("input");
+function PackingList({ items, onTogglePacked, onDelete, setItems, onClearStorage }) {
+  const [sortBy, setSortBy] = useState(()=>{
+    return localStorage.getItem("sortBy") || "input";
+  });
+
+  useEffect(()=>{
+    localStorage.setItem("sortBy", sortBy)
+  }, [sortBy])
 
   let sortedItems;
   if (sortBy === "input") sortedItems = items;
@@ -103,6 +126,17 @@ function PackingList({ items, onTogglePacked, onDelete, setItems }) {
   function handleClearList() {
     const confirmClear = window.confirm("Are you sure you want to clear all list?") 
     if (confirmClear) setItems([]);
+  }
+
+  function handleExportList() {
+    const fileData = JSON.stringify(items, null, 2);
+    const blob = new Blob([fileData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "packing-list.json";
+    link.click();
   }
 
   return (
@@ -124,7 +158,16 @@ function PackingList({ items, onTogglePacked, onDelete, setItems }) {
           <option value="packed">Sort by packed status</option>
         </select>
         {items.length > 0 && (
-          <button onClick={handleClearList}>Clear List</button>
+          <>
+            {/* <button onClick={handleClearList}>Clear List</button> */}
+            <button className="btn clear-btn" onClick={handleClearList}>
+              🗑️ Clear List
+            </button>
+            <button className="btn export-btn" onClick={handleExportList}>
+              📄 Export List
+            </button>
+            <button className='btn clear-storage' onClick={onClearStorage}>Clear Storage</button>
+          </>
         )}
       </div>
     </div>
