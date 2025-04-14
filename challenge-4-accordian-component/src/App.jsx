@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const data = [
+const faqs = [
   {
     id: 1,
     title: "Where are these chairs assembled?",
@@ -21,12 +21,12 @@ const data = [
 export default function App() {
   return (
     <div className='app'>
-      <Accordian />
+      <Accordian data={faqs} />
     </div>
   )
 }
 
-function Accordian(){
+function Accordian({data}){
   const [selectItem, setSelectedItem] = useState(null)
 
   function handleToggleItem(id){
