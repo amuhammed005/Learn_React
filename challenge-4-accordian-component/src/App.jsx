@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const faqs = [
+const data = [
   {
     id: 1,
     title: "Where are these chairs assembled?",
@@ -29,27 +29,31 @@ export default function App() {
 function Accordian(){
   const [selectItem, setSelectedItem] = useState(null)
 
-  function handleClickItem(id){
+  function handleToggleItem(id){
     setSelectedItem(currentId=>currentId !== id ? id : null)
   }
 
   return (
     <ul>
-      {faqs.map((faq) => (
-        <li
-          className={`faq ${selectItem === faq.id ? "active" : ""}`}
-          onClick={() => handleClickItem(faq.id)}
-        >
-          <div className="faq-header">
-            <span className={selectItem === faq.id ? "active-id" : ""}>
-              {faq.id <= 9 ? "0" + faq.id : faq.id}
-            </span>
-            <h4 className="title">{faq.title}</h4>
-            <button>{selectItem === faq.id ? "-" : "+"}</button>
-          </div>
-          {selectItem === faq.id && <p className="faq-text">{faq.text}</p>}
-        </li>
+      {data.map((el) => (
+        <Item el={el} selectItem={selectItem} onToggleItem={handleToggleItem} />
       ))}
     </ul>
+  );
+}
+
+function Item({el, onToggleItem, selectItem }) {
+  return (
+    <div
+      className={`item ${selectItem === el.id ? "active" : ""}`}
+      onClick={() => onToggleItem(el.id)}
+    >
+      <p className={`number ${selectItem === el.id ? "active-id" : ""}`}>
+        {el.id <= 9 ? "0" + el.id : el.id}
+      </p>
+      <p className="title">{el.title}</p>
+      <button className="icon">{selectItem === el.id ? "-" : "+"}</button>
+      {selectItem === el.id && <p className="item-text">{el.text}</p>}
+    </div>
   );
 }

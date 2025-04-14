@@ -31,104 +31,46 @@ button{
 
 .app{
     width: 70%;
-    margin-top: 5rem;
-    margin-inline: auto;
+    margin: 100px auto;
 }
 
-.faq {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+.item {
   padding: 2rem;
   background-color: var(--secondary-color);
-  margin: 1.2rem 0;
   box-shadow: var(--shadow);
-  border-radius: 1px;
   cursor: pointer;
-}
-/* 
-.faq span {
-  font-weight: bold;
-  font-size: 1.8rem;
-  margin-top: 0;
+  border-radius: 1px;
+  margin-bottom: 1.2rem;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  row-gap: 32px;
+  column-gap: 24px;
+  align-items: center;
 }
 
-.faq div {
-  flex-grow: 1;
-  margin-inline: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.faq.active {
-  border-top: 4px solid var(--primary-color);
-}
-.faq.active h4{
-    color: var(--primary-color);
+.item-text{
+    display: grid;
+    grid-column: 2/-2;
+    opacity: .8;
+    line-height: 1.4;
     margin-bottom: 2rem;
 }
 
-.faq p {
-  font-size: 1.4rem;
-  line-height: 1.5;
+.number, .title, .icon {
+    font-size: 24px;
+    font-weight: 500;
+}
+.number{
+    opacity: .4;
 }
 
-.active-id {
-  color: var(--primary-color);
+.item.active{
+    border-top: 4px solid var(--primary-color);
 }
-
- */
-
-
- .faq-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+.item.active .number, .item.active .title{
+    color: var(--primary-color);
 }
-
-.faq-header span {
-  font-weight: bold;
-  font-size: 1.8rem;
-  color: inherit;
-  flex-shrink: 0;
-  margin-right: 1rem;
-}
-
-.faq-header h4 {
-  flex-grow: 1;
-  font-size: 1.6rem;
-  margin-right: 1rem;
-  margin-left: 1rem;
-}
-
-.faq button {
-  font-size: 2rem;
-  cursor: pointer;
-}
-
-.faq-text {
-  margin-top: 1.5rem;
-  font-size: 1.4rem;
-  line-height: 1.5;
-  margin-inline: 4rem;
-}
-
-.faq.active {
-  border-top: 4px solid var(--primary-color);
-}
-
-.faq.active .title {
-  color: var(--primary-color);
-}
-
-.active-id {
-  color: var(--primary-color);
-}
-
-.active-id {
-  color: var(--primary-color);
+.item.active .number{
+    opacity: .9;
 }
