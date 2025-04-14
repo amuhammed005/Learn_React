@@ -1,0 +1,56 @@
+:root{
+    --primary-color: #4caf50;
+    --secondary-color: #ffffff;
+    --dark-color: #2e2e2e;
+    --light-bg: #f9f9f9;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 62.5%;
+}
+
+body{
+    font-size: 1.6rem;
+    font-family: sans-serif;
+    color: var(--dark-color);
+    background-color: var(--light-bg);
+}
+
+button{
+    border: none;
+    background: none;
+    font-size: larger;
+}
+
+.app{
+    width: 600px;
+    margin-top: 5rem;
+    margin-inline: auto;
+}
+
+.faq{
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+    background-color: var(--secondary-color);
+    margin: 1.2rem;
+    box-shadow: var(--shadow);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.active{
+    border-top: var(--primary-color);
+}
+.active title{
+    color: var(--primary-color);
+}
