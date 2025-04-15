@@ -10,30 +10,32 @@ body{
     color: #333;
 }
 
-.btn-group {
-    margin-top: 20px;
-}
 .app-container{
     width: 600px;
-    margin: 100px auto;
+    margin: 100px auto 40px;
     background-color: #fff;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 2px 20px rgb(0, 0, 0, 0.1);
+    box-shadow: 0 2px 30px rgb(0, 0, 0, 0.1);
 }
 
 .steps{
     display: flex;
     align-items: center;
     justify-content: space-around;
-    margin-bottom: 30px,
 }
 
 .steps div{
-    padding: 12px 17px;
+    padding: 12px 18px;
     background-color: #f5f5f5;
     border-radius: 50%;
     margin-bottom: 2rem;
+}
+
+.steps .active{
+    background-color: #7950f2;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 .message {
@@ -41,15 +43,21 @@ body{
     align-items: center;
     justify-content: center;
     margin-bottom: 2rem;
+    font-weight: bold;
 }
-.message span{
+.message h3{
     margin-right: 10px;
-    font-weight: 600;
 }
 
 .buttons {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-around;
+}
+.open-close{
+    position: relative;
+    top: 60px;
+    left: 65px;
+    margin-bottom: 1rem;
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./app.css";
 
 const messages = [
@@ -9,58 +9,102 @@ const messages = [
 
 
 export default function App() {
+
   return (
-    <div className='app-container'>
+    <div >
+      <Steps />
       <Steps />
     </div>
-  )
+  );
 }
 
 function Steps(){
+  const [step, setStep] = useState(1)
+  const [open, setOpen] = useState(false);
+
+  function handleToggleApp() {
+    setOpen((f) => !f);
+  }
+
+  function handlePrevious(){
+    if (step > 1 ) setStep((s) => s - 1);
+  }
+  function handleNext(){
+    if (step < 3 ) setStep((s) => s + 1);
+  }
+
   return (
-    <div className="">
-      <div className="steps">
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-      </div>
-      <div className="message">
-        <span>Step 1: </span>
-        <p>
-        {messages[0]}
-        </p>
-      </div>
-      <div className='buttons'>
+    <>
+      <div className="open-close">
         <Button
-          roundedMd="15px"
-          padding="8px 15px"
+          cursorPointer="pointer"
           noBorder="none"
-          bgColor="#7950f2"
-          textColor="#fff"
+          fontSize="large"
+          fontWeight="bolder"
+          handleClick={handleToggleApp}
         >
-          <span>👈</span>Previous
-        </Button>
-        <Button
-          roundedMd="15px"
-          padding="8px 15px"
-          noBorder="none"
-          bgColor="#7950f2"
-          textColor="#fff"
-        >
-          Next<span>👉</span>
+          ❌
         </Button>
       </div>
+      {open && (
+        <div className="app-container">
+          <div className="steps">
+            <div className={step >= 1 ? "active" : ""}>1</div>
+            <div className={step >= 2 ? "active" : ""}>2</div>
+            <div className={step >= 3 ? "active" : ""}>3</div>
+          </div>
+
+          <StepMessage step={step}>{messages[step - 1]}</StepMessage>
+          <div className="buttons">
+            <Button
+              roundedMd="15px"
+              padding="8px 15px"
+              noBorder="none"
+              bgColor="#7950f2"
+              textColor="#fff"
+              cursorPointer="pointer"
+              handleClick={handlePrevious}
+            >
+              <span>👈 </span>Previous
+            </Button>
+            <Button
+              roundedMd="15px"
+              padding="8px 15px"
+              noBorder="none"
+              bgColor="#7950f2"
+              textColor="#fff"
+              cursorPointer="pointer"
+              handleClick={handleNext}
+            >
+              Next<span> 👉</span>
+            </Button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+function StepMessage({step, children}){
+  return (
+    <div className="message">
+      <h3>Step {step}:</h3>
+      {children}
     </div>
   );
 }
 
 function Button({
+  handleClick,
   roundedMd,
   noBorder,
   bgColor,
   textColor,
   children,
   padding,
+  cursorPointer,
+  fontSize,
+  fontWeight,
 }) {
   return (
     <div>
@@ -71,7 +115,11 @@ function Button({
           color: textColor,
           padding: padding,
           borderRadius: roundedMd,
+          cursor: cursorPointer,
+          fontSize: fontSize,
+          fontWeight: fontWeight,
         }}
+        onClick={handleClick}
       >
         {children}
       </button>
