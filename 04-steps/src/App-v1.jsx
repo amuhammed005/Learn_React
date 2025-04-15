@@ -7,7 +7,7 @@ const messages = [
   "Invest your new income 🤑",
 ];
 
-function App() {
+export default function App() {
   const [step, setStep] = useState(1);
   const [isOpen, setIsOpen] = useState(true);
   const [reset, setReset] = useState(false);
@@ -20,7 +20,7 @@ function App() {
   }
 
   function resetState() {
-    setReset(reset=>!reset);
+    setReset((reset) => !reset);
     setStep(1);
   }
 
@@ -75,7 +75,6 @@ function App() {
   );
 }
 
-export default App;
 
 function Reset() {
   return (

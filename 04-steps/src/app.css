@@ -1,0 +1,55 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #f7f7f7;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.btn-group {
+    margin-top: 20px;
+}
+.app-container{
+    width: 600px;
+    margin: 100px auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 20px rgb(0, 0, 0, 0.1);
+}
+
+.steps{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 30px,
+}
+
+.steps div{
+    padding: 12px 17px;
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    margin-bottom: 2rem;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+.message span{
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+.buttons {
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
