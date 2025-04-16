@@ -1,18 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 const faqs = [
   {
-    id: 1,
     title: "Where are these chairs assembled?",
     text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium, quaerat temporibus quas dolore provident nisi ut aliquid ratione beatae sequi aspernatur veniam repellendus.",
   },
   {
-    id: 2,
     title: "How long do I have to return my chair?",
     text: "Pariatur recusandae dignissimos fuga voluptas unde optio nesciunt commodi beatae, explicabo natus.",
   },
   {
-    id: 3,
     title: "Do you ship to countries outside the EU?",
     text: "Excepturi velit laborum, perspiciatis nemo perferendis reiciendis aliquam possimus dolor sed! Dolore laborum ducimus veritatis facere molestias!",
   },
@@ -20,40 +17,63 @@ const faqs = [
 
 export default function App() {
   return (
-    <div className='app'>
+    <div className="app">
       <Accordian data={faqs} />
     </div>
-  )
+  );
 }
 
-function Accordian({data}){
-  const [selectItem, setSelectedItem] = useState(null)
-
-  function handleToggleItem(id){
-    setSelectedItem(currentId=>currentId !== id ? id : null)
-  }
+function Accordian({ data }) {
+  const [curOpen, setCurOpen] = useState(null);
 
   return (
     <ul>
-      {data.map((el) => (
-        <Item el={el} selectItem={selectItem} onToggleItem={handleToggleItem} />
+      {data.map((el, i) => (
+        <AccordianItem
+          title={el.title}
+          num={i}
+          curOpen={curOpen}
+          setCurOpen={setCurOpen}
+        >
+          {el.text}
+        </AccordianItem>
       ))}
+      <AccordianItem
+        title={"My first copy book"}
+        num={11}
+        curOpen={curOpen}
+        setCurOpen={setCurOpen}
+      >
+        <p>Hello! Welocme to Kingdom book shop</p>
+        <ul>
+          <li>Class one 1</li>
+          <li>Class two 2</li>
+          <li>Class three 3</li>
+          <li>Class four 4</li>
+        </ul>
+      </AccordianItem>
     </ul>
   );
 }
 
-function Item({el, onToggleItem, selectItem }) {
+function AccordianItem({ num, title, children, curOpen, setCurOpen }) {
+  const isOpen = num === curOpen;
+
+  function handleOpenToggle() {
+    setCurOpen(isOpen ? null : num);
+  }
+
   return (
     <div
-      className={`item ${selectItem === el.id ? "active" : ""}`}
-      onClick={() => onToggleItem(el.id)}
+      className={`item ${isOpen ? "active" : ""}`}
+      onClick={handleOpenToggle}
     >
-      <p className={`number ${selectItem === el.id ? "active-id" : ""}`}>
-        {el.id <= 9 ? "0" + el.id : el.id}
+      <p className={`number ${isOpen ? "active-id" : ""}`}>
+        {num + 1 < 9 ? "0" + (num + 1) : num + 1}
       </p>
-      <p className="title">{el.title}</p>
-      <button className="icon">{selectItem === el.id ? "-" : "+"}</button>
-      {selectItem === el.id && <p className="item-text">{el.text}</p>}
+      <p className="title">{title}</p>
+      <button className="icon">{isOpen ? "-" : "+"}</button>
+      {isOpen && <p className="item-text">{children}</p>}
     </div>
   );
 }
