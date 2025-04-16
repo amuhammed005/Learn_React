@@ -38,9 +38,7 @@ function Calculator(){
           bill={bill}
           setBill={setBill}
           type="number"
-          onChange={(e) => 
-          setBill(e.target.value)
-        }
+          onChange={(e) => setBill(e.target.value)}
           placeholder="Bill value"
         >
           How much was the bill?
@@ -62,11 +60,12 @@ function Calculator(){
 
         {totalBill > 0 && (
           <div>
-            <p>
-              {/* Your total bill is Gh₵{totalBill} (Gh₵{bill} + Gh₵{totalTip}){" "} */}
-              Your total bill is {formatter.format(totalBill)} (
-              {formatter.format(bill)} + {formatter.format(totalTip)})
-            </p>
+            <Output
+              formatter={formatter}
+              bill={bill}
+              totalBill={totalBill}
+              totalTip={totalTip}
+            />
             <Button onClick={handleReset}>Reset</Button>
           </div>
         )}
@@ -102,6 +101,15 @@ function TipSelector({children, value, onChange}){
         <option value="20">Very satisfied (20%)</option>
       </select>
     </div>
+  );
+}
+function Output({ bill, totalBill, totalTip, formatter }) {
+  return (
+    <p>
+      {/* Your total bill is Gh₵{totalBill} (Gh₵{bill} + Gh₵{totalTip}){" "} */}
+      Your total bill is {formatter.format(totalBill)} ({formatter.format(bill)}{" "}
+      + {formatter.format(totalTip)})
+    </p>
   );
 }
 
