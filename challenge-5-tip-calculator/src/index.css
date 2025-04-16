@@ -36,6 +36,13 @@ div{
 p{
   margin-top: 20px;
 }
-button{
-  margin: 10px 0;
+.btn{
+  margin-top: 1rem;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #fe0000;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
 }
