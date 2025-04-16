@@ -10,87 +10,105 @@ export default function App() {
 }
 
 function Calculator(){
-  const [bill, setBill] = useState(0)
-  const [userService, setUserService] = useState("Disatisfied");
-  const [friendService, setFriendService] = useState("Satisfied");
+  const [bill, setBill] = useState("")
+  const [userTip, setUserTip] = useState(0);
+  const [friendTip, setFriendTip] = useState(0);
 
-  let userTip = 0;
-  let friendTip = 0;
-  if (userService === "disatisfied") {
-     userTip += 0;
-  } else if (userService === "satisfied") {
-    userTip += 5
-  } else if (userService === "very-satisfied") {
-    userTip += 10;
-  }
+  let newBill = Number(bill)
+  const totalTip = ((userTip + friendTip) / 2 / 100) * newBill;
+  const totalBill = newBill + totalTip;
 
-  if (friendService === "disatisfied") {
-    friendTip += 0;
-  } else if (friendService === "satisfied") {
-    friendTip += 5;
-  } else if (friendService === "very-satisfied") {
-    friendTip += 10;
-  }
-
-  const totalTip = (userTip + friendTip) / 2
-  const totalBill = bill + totalTip
-
-  console.log("bill: " + typeof(bill))
-  console.log( "user tip: " + typeof(userTip))
-  console.log("friend tip: " + typeof(friendTip))
-  console.log( "total tip: " + typeof(totalTip))
-  console.log( "total bill: " + typeof(totalBill))
+  console.log(totalTip)
 
   function handleReset(){
     setBill(0)
-    setUserService("Disatisfied")
-    setFriendService("Disatisfied")
+    setUserTip(0)
+    setFriendTip(0)
   }
+
+  const formatter = new Intl.NumberFormat("en-GH", {
+    style: "currency",
+    currency: "GHS",
+    minimumFractionDigits: 2,
+  });
 
     return (
       <div className="app">
-        <div>
-          <label htmlFor="">How much was the bill? </label>
-          <input
-            type="number"
-            placeholder="0.00"
-            value={bill}
-            onChange={(e) => setBill(Number(e.target.value))}
-          />
-        </div>
-        <div>
-          <label htmlFor="">How did you like the service? </label>
-          <select
-            name="user"
-            value={userService}
-            onChange={(e) => setUserService(e.target.value)}
-          >
-            <option value="disatisfied">Disatisfied 0%</option>
-            <option value="satisfied">Satisfied 5%</option>
-            <option value="very-satisfied">Very satisfied 10%</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="">How did your friend like the service? </label>
-          <select
-            name="friend"
-            value={friendService}
-            onChange={(e) => setFriendService(e.target.value)}
-          >
-            <option value="disatisfied">Disatisfied 0%</option>
-            <option value="satisfied">Satisfied 5%</option>
-            <option value="very-satisfied">Very satisfied 10%</option>
-          </select>
-        </div>
+        <Bill
+          bill={bill}
+          setBill={setBill}
+          type="number"
+          onChange={(e) => 
+          setBill(e.target.value)
+        }
+          placeholder="Bill value"
+        >
+          How much was the bill?
+        </Bill>
+
+        <TipSelector
+          value={userTip}
+          onChange={(e) => setUserTip(Number(e.target.value))}
+        >
+          How did you like the service?
+        </TipSelector>
+
+        <TipSelector
+          value={friendTip}
+          onChange={(e) => setFriendTip(Number(e.target.value))}
+        >
+          How did your friend like the service?
+        </TipSelector>
 
         {totalBill > 0 && (
           <div>
             <p>
-              Your total bill is Gh₵{totalBill} (Gh₵{bill} + Gh₵{totalTip}){" "}
+              {/* Your total bill is Gh₵{totalBill} (Gh₵{bill} + Gh₵{totalTip}){" "} */}
+              Your total bill is {formatter.format(totalBill)} (
+              {formatter.format(bill)} + {formatter.format(totalTip)})
             </p>
-            <button className='btn' onClick={handleReset}>Reset</button>
+            <Button onClick={handleReset}>Reset</Button>
           </div>
         )}
       </div>
     );
+}
+
+function Bill({ children, bill, type, onChange, placeholder }) {
+  return (
+    <div>
+      <label htmlFor="input">{children}</label>
+      <input
+        type={type}
+        placeholder={placeholder}
+        value={bill}
+        onChange={onChange}
+      />
+    </div>
+  );
+}
+
+function TipSelector({children, value, onChange}){
+  return (
+    <div>
+      <label htmlFor="select">{children}</label>
+      <select
+        value={value}
+        onChange={onChange}
+      >
+        <option value="0">Disatisfied (0%)</option>
+        <option value="5">Satisfied (5%)</option>
+        <option value="10">Very satisfied (10%)</option>
+        <option value="20">Very satisfied (20%)</option>
+      </select>
+    </div>
+  );
+}
+
+function Button({onClick, children}){
+  return (
+    <button className="btn" onClick={onClick}>
+      {children}
+    </button>
+  );
 }
