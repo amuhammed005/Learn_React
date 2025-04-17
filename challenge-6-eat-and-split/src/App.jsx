@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState } from 'react'
 
 const initialFriends = [
   {
@@ -20,10 +20,6 @@ const initialFriends = [
     balance: 0,
   },
 ];
-
-function Button({children, onClick}){
-  return <button className="button" onClick={onClick}>{children}</button>;
-}
 
 export default function App() {
   const [showAddForm, setShowAddForm] = useState(false)
@@ -58,6 +54,8 @@ export default function App() {
   }
 
   return (
+    <>
+    <Navbar />
     <div className="app">
       <div className="sidebar">
         <FriendList friends={friends} onAddFriend={handleAddFriend} selectedFriend={selectedFriend} onSelection={handleSelection} />
@@ -72,8 +70,59 @@ export default function App() {
       <FormSplitBill selectedFriend={selectedFriend} onSplitBill={handleSplitBill}/>
       }
     </div>
+    </>
   );
-}  
+}
+
+
+
+
+
+
+function Navbar() {
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const threshold = 100;
+
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      setIsSticky(currentScroll > threshold);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <nav className={`navbar ${isSticky ? "sticky" : ""}`}>
+      <div className="navbar-container">
+        <h1 className="logo">MyApp</h1>
+        <ul className="nav-links">
+          <li>
+            <a href="#">Home</a>
+          </li>
+          <li>
+            <a href="#">Friends</a>
+          </li>
+          <li>
+            <a href="#">Split Bill</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  );
+}
+
+
+
+function Button({ children, onClick }) {
+  return (
+    <button className="button" onClick={onClick}>
+      {children}
+    </button>
+  );
+}
 
 function FriendList({friends, selectedFriend, onSelection}){
   return <ul>{friends.map(friend=><Friend friend={friend} key={friend.id} selectedFriend={selectedFriend} onSelection={onSelection} />)}</ul>;
