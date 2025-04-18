@@ -38,12 +38,12 @@ function Navbar(){
 function Items(){
   return (
     <div className="items">
-      <h2>List of Items</h2>
       <div className="content">
         <Button>Add Item</Button>
         <FilterItems />
       </div>
       <FormAddItem/>
+      <h2>List of Items</h2>
       <ul>
         {initialItems.map((item) => (
           <Item key={item.id} item={item} />
