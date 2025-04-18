@@ -46,7 +46,7 @@ export default function App() {
       <Navbar />
       <div className="app-body">
         <div className="add-filter">
-          <Button onClick={handleOpenForm}>Add Item</Button>
+          <Button onClick={handleOpenForm}>{toggleAddForm ? "Close" : "Add item"}</Button>
           <FilterItems
             items={items}
             selectedOption={selectedOption}
@@ -144,7 +144,7 @@ function Item({ item, onTogglePurchased, onDeleteItem }) {
       <div className="controls">
         <input
           type="checkbox"
-          value={item.purchased}
+          checked={item.purchased}
           onChange={() => onTogglePurchased(item.id)}
         />
         <button className="button" onClick={() => onDeleteItem(item.id)}>
