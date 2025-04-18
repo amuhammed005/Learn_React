@@ -27,15 +27,10 @@ body {
   min-height: 100vh;
 }
 
-.app{
-  /* width: 100%;
-  margin: 0 auto; */
-}
 .app-body{
   width: 80%;
   max-width: 60%;
-  margin-top: 3rem;
-  margin-inline: 15rem;
+  margin: 5rem 15rem;
 }
 
 .nav{
@@ -76,8 +71,6 @@ a:hover{
   font-weight: bold;
 }
 
-
-
 ul{
   list-style: none;
   border-radius: 5px;
@@ -86,6 +79,7 @@ ul{
   padding: .4rem;
   background-color: var(--card-bg);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 5rem;
 }
 
 ul li{
@@ -105,6 +99,12 @@ ul li{
   gap: 2rem;
 }
 
+.add-filter{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .controls .checkbox, 
 .controls .button{
   display: flex;
@@ -122,6 +122,7 @@ ul li{
   border: none;
   background-color: inherit;
   color: var(--danger);
+  cursor: pointer;
 }
 
 .filter{
@@ -144,17 +145,11 @@ ul li{
 }
 
 .items{
-  margin-top: 10rem;
-}
-.items .content{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 2rem;
+  margin-top: 5rem;
 }
 
 .items h2{
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: var(--primary-dark);
 }
 
@@ -167,6 +162,7 @@ ul li{
   font-weight: bold;
   transition: .3s;
   align-self: flex-end;
+  cursor: pointer;
 }
 
 .btn:hover{
