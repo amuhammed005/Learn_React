@@ -53,6 +53,17 @@ export default function App() {
     localStorage.setItem("items", JSON.stringify(items));
   }, [items]);
 
+  // useEffect(() => {
+  //   console.log("Current items:", items);
+  // }, [items]);
+
+
+
+  // useEffect(() => {
+  //   const storedItems = JSON.parse(localStorage.getItem("items"));
+  //   if (storedItems) setItems(storedItems);
+  // }, []);
+
   return (
     <>
       <Navbar />
@@ -193,7 +204,7 @@ function FormAddItem({ items, onAddItem }) {
       quantity,
       purchased: false,
     };
-    console.log(newItem);
+    // console.log(newItem);
     onAddItem(newItem);
 
     setName("");
