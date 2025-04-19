@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Item from "./Item";
 
 export default function PackingList({
-  items,
+  items=[],
   onTogglePacked,
   onDelete,
   setItems,
@@ -18,11 +18,18 @@ export default function PackingList({
 
   let sortedItems;
   if (sortBy === "input") sortedItems = items;
+  // if (sortBy === "description") {
+  //   sortedItems = [...items].sort((a, b) =>
+  //     a.description.localeCompare(b.description)
+  //   );
+  // }
   if (sortBy === "description") {
-    sortedItems = [...items].sort((a, b) =>
-      a.description.localeCompare(b.description)
-    );
+    sortedItems = [...items].sort((a, b) => {
+      if (!a?.description || !b?.description) return 0;
+      return a.description.localeCompare(b.description);
+    });
   }
+
   if (sortBy === "packed") {
     sortedItems = [...items].sort(
       (a, b) => Number(a.packed) - Number(b.packed)
@@ -50,7 +57,7 @@ export default function PackingList({
   return (
     <div className="list">
       <ul>
-        {sortedItems.map((item) => (
+        {sortedItems?.map((item) => (
           <Item
             item={item}
             key={item.id}
@@ -67,7 +74,6 @@ export default function PackingList({
         </select>
         {items.length > 0 && (
           <>
-            {/* <button onClick={handleClearList}>Clear List</button> */}
             <button className="btn clear-btn" onClick={handleClearList}>
               🗑️ Clear List
             </button>
