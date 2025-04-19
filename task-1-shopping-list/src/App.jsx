@@ -37,6 +37,18 @@ export default function App() {
     setItems(items.filter((item) => item.id !== id));
   }
 
+  function handleMarkAll() {
+    const allPurchased = items.every((item) => item.purchased);
+
+    setItems((items) =>
+      items.map((item) => ({
+        ...item,
+        purchased: !allPurchased,
+      }))
+    );
+  }
+
+
   useEffect(() => {
     localStorage.setItem("items", JSON.stringify(items));
   }, [items]);
@@ -60,6 +72,7 @@ export default function App() {
           items={items}
           selectedOption={selectedOption}
           onDeleteItem={handleDeleteItem}
+          onMarkAll={handleMarkAll}
           onTogglePurchased={handleTogglePurchased}
         />
       </div>
@@ -105,7 +118,8 @@ function FilterItems({ selectedOption, setSelectedOption }) {
   );
 }
 
-function ItemsList({ items, selectedOption, onTogglePurchased, onDeleteItem }) {
+function ItemsList({ items, selectedOption, onTogglePurchased, onDeleteItem, onMarkAll }) {
+
   let filteredItems;
   if (selectedOption === "all") filteredItems = items;
   if (selectedOption === "purchased") {
@@ -115,11 +129,19 @@ function ItemsList({ items, selectedOption, onTogglePurchased, onDeleteItem }) {
     filteredItems = items.filter((item) => item.purchased === false);
   }
 
+  const allPurchased =
+    items.length > 0 && items.every((item) => item.purchased);
+
   return (
     <div className="items">
-      <h2>List of Items</h2>
+      <div className="add-filter">
+        <h2>List of Items</h2>
+        <Button onClick={onMarkAll}>
+          {allPurchased ? "Unmark All" : "Mark All"}
+        </Button>
+      </div>
       {filteredItems.length === 0 ? (
-        <p>No items found</p>
+        <p style={{margin: "3rem 0", fontSize: "1.6rem", lineHeight: "1.8rem"}}>No items found</p>
       ) : (
         <ul>
           {filteredItems.map((item) => (
