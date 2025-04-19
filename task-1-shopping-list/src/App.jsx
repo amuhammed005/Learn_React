@@ -188,20 +188,33 @@ function Item({ item, onTogglePurchased, onDeleteItem }) {
   );
 }
 
-function FormAddItem({ items, onAddItem }) {
+function FormAddItem({ onAddItem }) {
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [errorMessage, setErrorMessage] = useState("") 
 
+  
   function handleFormSubmit(e) {
     e.preventDefault();
+    
+    
+    if (!name.trim() || !quantity.trim()) {
+      setErrorMessage("Please enter a valid name and quantity.")
+      return;
+    }
+    
+    setErrorMessage("")
+    
+    const formattedName = name
+      .trim()
+      .toLowerCase()
+      .split(/\s+/)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ").slice(0, 20);
 
-    if (!name || !quantity) return;
-
-    const newId = items.length + 1;
     const newItem = {
-      id: newId,
-      name,
-      quantity,
+      id: crypto.randomUUID(),
+      name: formattedName,
+      quantity: Number(quantity),
       purchased: false,
     };
     // console.log(newItem);
@@ -213,6 +226,7 @@ function FormAddItem({ items, onAddItem }) {
 
   return (
     <form onSubmit={handleFormSubmit}>
+      {errorMessage && <p className="error">{errorMessage}</p>}
       <div className="form-data">
         <label>Name</label>
         <input

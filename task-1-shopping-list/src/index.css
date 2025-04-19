@@ -199,6 +199,12 @@ form{
   gap: 2rem;
   font-size: 1.8rem;
 }
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
 
 /* Media Query */
 @media (max-width: 680px) {
