@@ -144,6 +144,7 @@ function MovieCard({movie, onBookmarkAdd}) {
           </div>
           <button
             onClick={() => onBookmarkAdd(movie)}
+            title="Add to Watchlist"
             className="py-1 px-2 text-5xl font-bold rounded-lg text-amber-300 hover:text-amber-500 hover:scale-110"
           >
             <MdBookmarkAdd />
@@ -189,6 +190,7 @@ function WatchlistItem({movie, onRemove}) {
           <StarRating />
           <button
             onClick={() => onRemove(movie.imdbID)}
+            title='Remove from Watchlist'
             className="py-1 px-2 text-5xl font-bold rounded-lg text-amber-300 hover:text-amber-500 hover:scale-110"
           >
             <MdBookmarkRemove />
@@ -210,20 +212,21 @@ function StarRating({maxRating = 5, size= 18, onSetRating}){
   }
 
   return (
-      <div className="flex space-x-1">
-        {Array.from({ length: maxRating }, (_, i) => (
-          <FaStar
-            key={i}
-            size={size}
-            className={`cursor-pointer transition-colors duration-200 ${
-              (hovered || selected) > i ? "text-yellow-400" : "text-gray-400"
-            }`}
-            onClick={()=>handleRate(i + 1)}
-            onMouseEnter={()=>setHovered(i + 1)}
-            onMouseLeave={()=>setHovered(0)}
-          />
-        ))}
-      </div>
+    <div className="flex space-x-1">
+      {Array.from({ length: maxRating }, (_, i) => (
+        <FaStar
+          key={i}
+          size={size}
+          title={`Rate ${i + 1} star${i > 0 ? "s" : ""}`}
+          className={`cursor-pointer transition-colors duration-200 ${
+            (hovered || selected) > i ? "text-yellow-400" : "text-gray-400"
+          }`}
+          onClick={() => handleRate(i + 1)}
+          onMouseEnter={() => setHovered(i + 1)}
+          onMouseLeave={() => setHovered(0)}
+        />
+      ))}
+    </div>
   );
 }
 
