@@ -86,7 +86,11 @@ function History({data}){
 
 function Item({item}){
   return (
-    <div className="flex items-center justify-between border-r-4 border-green-600 p-3 shadow-md rounded-sm">
+    <div
+      className={`flex items-center justify-between border-r-4 ${
+        item.amount > 0 ? "border-green-600" : "border-red-600"
+      } p-3 shadow-md rounded-sm`}
+    >
       <p>
         {item.transaction &&
           item.transaction.charAt(0).toUpperCase() +
