@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { IoSearch } from "react-icons/io5";
 import { MdBookmarkAdd, MdBookmarkRemove } from "react-icons/md";
 import { FaStar } from "react-icons/fa";
+import { Toaster, toast } from "react-hot-toast";
 
 export default function App() {
     const [movies, setMovies] = useState([]);
@@ -23,10 +24,15 @@ export default function App() {
     function handleBookmarkAdd(movie) {
       if (!watchList.some((savedmovie) => savedmovie.imdbID === movie.imdbID)){
         setWatchedList([...watchList, movie])
+        toast.success(`Added "${movie.Title}" to watchlist!`)
+      } else {
+        toast("Movie already in watchlist.", { icon: "⚠️" });
       }
     }
      function handleRemoveBookmarked(id) {
+      const movie = watchList.find((m) => m.imdbID === id);
       setWatchedList((watchList)=>watchList.filter((curMovie) => curMovie.imdbID !== id))
+      toast.error(`Removed "${movie?.Title || "movie"}" from Watchlist.`);
      }
 
     useEffect(() => {
@@ -62,6 +68,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-bg-dark">
+      <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
       <Navbar query={query} setQuery={setQuery} />
       <div className="py-40 md:w-3/4 mx-auto px-4">
         <MovieList
