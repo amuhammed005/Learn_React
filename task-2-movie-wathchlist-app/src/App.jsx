@@ -8,7 +8,17 @@ export default function App() {
     const [query, setQuery] = useState("batman");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [watchList, setWatchedList] = useState([]);
+    // const [watchList, setWatchedList] = useState([]);
+    const [watchList, setWatchedList] = useState(() => {
+      try {
+        const bookMarkedLocalStorage = localStorage.getItem("watchList");
+        return bookMarkedLocalStorage ? JSON.parse(bookMarkedLocalStorage) : [];
+      } catch (error) {
+        console.error("Failed to parse watchList from localStorage", error);
+        return [];
+      }
+    });
+
 
     function handleBookmarkAdd(movie) {
       if (!watchList.some((savedmovie) => savedmovie.imdbID === movie.imdbID)){
@@ -42,6 +52,13 @@ export default function App() {
       fetchMovies();
     }, [query]);
 
+    useEffect(()=>{
+      localStorage.setItem("watchList", JSON.stringify(watchList))
+    }, [watchList])
+
+    // useEffect(() => {
+    //   console.log("Updated Watchlist:", watchList);
+    // }, [watchList]);
 
   return (
     <div className="min-h-screen bg-bg-dark">
@@ -115,7 +132,7 @@ function MovieList({ movies, error, loading, onBookmarkAdd }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-16">
         {movies.map((movie) => (
           <MovieCard
-            key={movie.id}
+            key={movie.imdbID}
             movie={movie}
             onBookmarkAdd={onBookmarkAdd}
           />
@@ -166,7 +183,7 @@ function Watchlist({watchList, onRemove}) {
       
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {watchList.map((movie) => (
-          <WatchlistItem key={movie.id} movie={movie} onRemove={onRemove} />
+          <WatchlistItem key={movie.imdbID} movie={movie} onRemove={onRemove} />
         ))}
       </div>
     </div>
