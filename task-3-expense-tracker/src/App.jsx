@@ -28,9 +28,9 @@ export default function App() {
   return (
     <div className="w-3/4 md:w-2/6 flex flex-col mx-auto my-10">
       <Logo />
-      <Balance />
+      <Balance data={data} />
       <History data={data} />
-      <Transaction onAddTransaction={handleAddTransaction} />
+      <Transaction onAddTransaction={handleAddTransaction}/>
     </div>
   );
 }
@@ -44,19 +44,23 @@ function Logo(){
   )
 }
 
-function Balance(){
+function Balance({data}){
+  const income = data.filter(i=>i.amount >= 0).reduce((acc, cur) => acc + cur.amount, 0);
+  const expense = data.filter(i=>i.amount < 0).reduce((acc, cur)=>acc + Math.abs(cur.amount), 0)
+  const balance = income - expense
+
   return (
     <div className="mb-8">
       <h3 className="font-medium uppercase">Your Balance</h3>
-      <p className="font-bold text-3xl mb-6">$260.00</p>
+      <p className="font-bold text-3xl mb-6">${balance}.00</p>
       <div className="bg-white md:px-5 lg:px-10 py-10 uppercase shadow-lg text-center flex flex-col gap-5 md:flex-row items-center justify-between">
         <span>
           <h4>Income</h4>
-          $500.00
+          <p className="text-green-600 font-medium text-lg">${income}.00</p>
         </span>
         <span className="">
           <h4>Expense</h4>
-          $500.00
+          <p className="text-red-600 font-medium text-lg">${expense}.00</p>
         </span>
       </div>
     </div>
@@ -96,14 +100,15 @@ function Item({item}){
           item.transaction.charAt(0).toUpperCase() +
             item.transaction.slice(1).toLowerCase()}
       </p>
-      <span>{item.amount}</span>
+      <span>{item.amount > 0 ? "+" : ""}{item.amount}</span>
     </div>
   );
 }
 
 function Transaction({onAddTransaction}){
   const [transaction, setTransaction] = useState("")
-  const [amount, setAmount ] = useState("")
+  const [amount, setAmount] = useState("");
+
 
   function handleSumbit(e){
     e.preventDefault()
@@ -114,11 +119,8 @@ function Transaction({onAddTransaction}){
       transaction,
       amount: Number(amount),
     }
+
     onAddTransaction(newTransaction)
-
-    console.log(typeof(amount))
-
-    console.log(newTransaction)
 
     setTransaction("")
     setAmount("")
