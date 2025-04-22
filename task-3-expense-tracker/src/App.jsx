@@ -1,37 +1,52 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdDeleteOutline } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getLocalStorage, setLocalStorage } from './utils/storage';
 
 
-// const dummyData = [
-//   {
-//     id: 1,
-//     transaction: "Cash",
-//     amount: 200,
-//   },
-//   {
-//     id: 2,
-//     transaction: "Book",
-//     amount: 300,
-//   },
-//   {
-//     id: 3,
-//     transaction: "Food",
-//     amount: 750,
-//   },
-// ];
 
 export default function App() {
-  const [data, setData] = useState([])
+  const [openForm, setOpenForm] = useState(false)
+  const [data, setData] = useState(() => getLocalStorage("data", []))
+
+  useEffect(()=>{
+    setLocalStorage("data", data)
+  }, [data]);
 
   function handleAddTransaction(newItem){
-    setData([...data, newItem])
+    setData(prevData=>[...prevData, newItem]);  
   }
 
   function handleDelete(id){
+    const confirmDelete = window.confirm("Are you sure you want to delete this transaction?");
+    if (!confirmDelete) return;
+
+    const deletedItem = data.find(item=>item.id === id); // Save the deleted item
+
     setData(data=>data.filter(item=>item.id !== id))
-    toast.error("Transaction deleted!");
+
+    toast(
+      ({ closeToast }) => (
+        <div className="flex text-start items-center justify-between gap-4">
+          <span>Transaction deleted!</span>
+          <button
+            onClick={() => {
+              setData((prev) => [...prev, deletedItem]);
+              toast.success("Transaction restored!");
+              closeToast();
+            }}
+            className="text-sm font-semibold text-white bg-green-600 px-2 py-1 rounded hover:bg-green-700"
+          >
+            Undo
+          </button>
+        </div>
+      ),
+      {
+        type: "error",
+        autoClose: 5000,
+      }
+    );
   }
 
   function formatCurrency(amount){
@@ -50,7 +65,19 @@ export default function App() {
         <Logo />
         <Balance data={data} formatCurrency={formatCurrency} />
         <History data={data} onDelete={handleDelete} />
-        <Transaction onAddTransaction={handleAddTransaction} />
+
+        {openForm && (
+          <Transaction
+            onAddTransaction={handleAddTransaction}
+            setOpenForm={setOpenForm}
+          />
+        )}
+        <button
+          onClick={() => setOpenForm((open) => !open)}
+          className="w-40 my-4 px-3 py-1 rounded bg-green-500 hover:bg-green-600 text-white font-semibold"
+        >
+          {openForm ? "Close" : "Add Transaction"}
+        </button>
       </div>
     </>
   );
@@ -137,7 +164,7 @@ function Item({item, onDelete}){
     <div
       className={`flex items-center justify-between border-r-4 ${
         item.amount > 0 ? "border-green-600" : "border-red-600"
-      } p-3 shadow-md rounded-sm`}
+      } py-3 pl-2 pr-1 shadow-md rounded-sm hover:bg-white hover:shadow-xl`}
     >
       <p>
         {item.transaction &&
@@ -149,15 +176,18 @@ function Item({item, onDelete}){
           {item.amount > 0 ? "+" : ""}
           {item.amount}
         </span>
-        <button onClick={()=>onDelete(item.id)} className="text-xl text-red-500 hover:text-red-600">
+        <button onClick={()=>onDelete(item.id)} title='Delete transaction' className="text-xl text-red-500 hover:text-red-600">
           <MdDeleteOutline />
+        </button>
+        <button title='Edit transaction' className="text-xs">
+          🖊
         </button>
       </div>
     </div>
   );
 }
 
-function Transaction({onAddTransaction}){
+function Transaction({onAddTransaction, setOpenForm}){
   const [transaction, setTransaction] = useState("")
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("");
@@ -165,21 +195,27 @@ function Transaction({onAddTransaction}){
 
   function handleSumbit(e){
     e.preventDefault()
-    if(!transaction || !amount || !type ) return;
+    if(!transaction || !amount || !type ) {
+      toast.error("Please fill in all fields!");
+      return;
+    };
 
     const newTransaction = {
       id: crypto.randomUUID(),
       transaction,
       amount: type === "expense" ? -Math.abs(amount) : Math.abs(amount),
+      date: new Date().toLocaleString()
     };
 
+    console.log(newTransaction)
     onAddTransaction(newTransaction)
 
     setTransaction("")
     setAmount("")
     setType("")
 
-    toast.success("Transaction added!");
+    // toast.success("Transaction added!");
+    setOpenForm(false)
   }
 
   return (
@@ -209,14 +245,16 @@ function Transaction({onAddTransaction}){
               <input
                 type="radio"
                 name="type"
+                id="income"
                 value="income"
                 checked={type === "income"}
                 onChange={(e) => setType(e.target.value)}
-                // className="hidden peer"
+                className="hidden peer/income"
               />
               <label
                 htmlFor="radio"
-                // className={`px-2 py-1 border rounded-md peer-checked:bg-green-500 peer-checked:text-white cursor-pointer`}
+                onClick={() => setType("income")}
+                className={`px-2 py-1 border rounded-md peer-checked/income:bg-green-500 peer-checked/income:text-white cursor-pointer`}
               >
                 Income
               </label>
@@ -225,14 +263,16 @@ function Transaction({onAddTransaction}){
               <input
                 type="radio"
                 name="type"
+                id="expense"
                 value="expense"
                 checked={type === "expense"}
                 onChange={(e) => setType(e.target.value)}
-                // className="hidden peer"
+                className="hidden peer/expense"
               />
               <label
                 htmlFor="radio"
-                // className="px-2 py-1 rounded-md border cursor-pointer peer-checked:bg-red-500 peer-checked:text-white"
+                onClick={() => setType("expense")}
+                className="px-2 py-1 rounded-md border cursor-pointer peer-checked/expense:bg-red-500 peer-checked/expense:text-white"
               >
                 Expense
               </label>
@@ -241,6 +281,7 @@ function Transaction({onAddTransaction}){
           <input
             type="number"
             value={amount}
+            min={1}
             onChange={(e) => setAmount(Number(e.target.value))}
             className="w-full mb-3 p-2 focus:outline-none border"
             placeholder={
@@ -251,7 +292,7 @@ function Transaction({onAddTransaction}){
           />
         </div>
         <button className="w-full font-semibold text-center text-gray-200 p-2 bg-violet-500 hover:bg-violet-600">
-          Add transaction
+          Submit
         </button>
       </form>
     </div>
