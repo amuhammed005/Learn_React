@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { MdDeleteOutline } from "react-icons/md";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 // const dummyData = [
 //   {
@@ -28,6 +31,7 @@ export default function App() {
 
   function handleDelete(id){
     setData(data=>data.filter(item=>item.id !== id))
+    toast.error("Transaction deleted!");
   }
 
   function formatCurrency(amount){
@@ -40,12 +44,15 @@ export default function App() {
   }
 
   return (
-    <div className="w-3/4 md:w-2/6 flex flex-col mx-auto my-10">
-      <Logo />
-      <Balance data={data} formatCurrency={formatCurrency} />
-      <History data={data} onDelete={handleDelete} />
-      <Transaction onAddTransaction={handleAddTransaction}/>
-    </div>
+    <>
+      <ToastContainer position="top-center" autoClose={3000} />
+      <div className="w-3/4 md:w-2/6 flex flex-col mx-auto my-10">
+        <Logo />
+        <Balance data={data} formatCurrency={formatCurrency} />
+        <History data={data} onDelete={handleDelete} />
+        <Transaction onAddTransaction={handleAddTransaction} />
+      </div>
+    </>
   );
 }
 
@@ -93,14 +100,22 @@ function History({data, onDelete}){
     <div className="mb-8">
       <div className="flex items-center justify-between  pb-2 border-b-2 border-b-gray-400">
         <h3 className="font-medium uppercase">History</h3>
-        <div className=''>
-          <label htmlFor="select" className='text-xs'>Filter by:</label>
-          <select name="select" onChange={(e)=>setSelect(e.target.value)} className="bg-inherit focus:outline-none text-md p-1 rounded-md">
-            <option value="all">All</option>
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
-          </select>
-        </div>
+        {data.length !== 0 && (
+          <div className="">
+            <label htmlFor="select" className="text-xs">
+              Filter by:
+            </label>
+            <select
+              name="select"
+              onChange={(e) => setSelect(e.target.value)}
+              className="bg-inherit focus:outline-none text-md p-1 rounded-md"
+            >
+              <option value="all">All</option>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+          </div>
+        )}
       </div>
       {data.length === 0 ? (
         <p className="mt-2">
@@ -145,27 +160,26 @@ function Item({item, onDelete}){
 function Transaction({onAddTransaction}){
   const [transaction, setTransaction] = useState("")
   const [amount, setAmount] = useState("");
-  const [type, setType] = useState("income");
+  const [type, setType] = useState("");
 
 
   function handleSumbit(e){
     e.preventDefault()
-    if(!transaction || !amount ) return;
-
-    const signedAmount = type === "expense" ? -Math.abs(amount) : Math.abs(amount)
-    console.log(typeof(signedAmount))
+    if(!transaction || !amount || !type ) return;
 
     const newTransaction = {
       id: crypto.randomUUID(),
       transaction,
-      amount: signedAmount,
-    }
+      amount: type === "expense" ? -Math.abs(amount) : Math.abs(amount),
+    };
 
     onAddTransaction(newTransaction)
 
     setTransaction("")
     setAmount("")
-    setType("income")
+    setType("")
+
+    toast.success("Transaction added!");
   }
 
   return (
@@ -198,8 +212,14 @@ function Transaction({onAddTransaction}){
                 value="income"
                 checked={type === "income"}
                 onChange={(e) => setType(e.target.value)}
+                // className="hidden peer"
               />
-              <label htmlFor="radio">Income</label>
+              <label
+                htmlFor="radio"
+                // className={`px-2 py-1 border rounded-md peer-checked:bg-green-500 peer-checked:text-white cursor-pointer`}
+              >
+                Income
+              </label>
             </div>
             <div className="flex items-center gap-1">
               <input
@@ -208,8 +228,14 @@ function Transaction({onAddTransaction}){
                 value="expense"
                 checked={type === "expense"}
                 onChange={(e) => setType(e.target.value)}
+                // className="hidden peer"
               />
-              <label htmlFor="radio">Expense</label>
+              <label
+                htmlFor="radio"
+                // className="px-2 py-1 rounded-md border cursor-pointer peer-checked:bg-red-500 peer-checked:text-white"
+              >
+                Expense
+              </label>
             </div>
           </div>
           <input
@@ -218,7 +244,9 @@ function Transaction({onAddTransaction}){
             onChange={(e) => setAmount(Number(e.target.value))}
             className="w-full mb-3 p-2 focus:outline-none border"
             placeholder={
-              type === "income" ? "Enter income amount..." : "Enter expense amount..."
+              type === "income"
+                ? "Enter income amount..."
+                : "Enter expense amount..."
             }
           />
         </div>
