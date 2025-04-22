@@ -145,22 +145,27 @@ function Item({item, onDelete}){
 function Transaction({onAddTransaction}){
   const [transaction, setTransaction] = useState("")
   const [amount, setAmount] = useState("");
+  const [type, setType] = useState("income");
 
 
   function handleSumbit(e){
     e.preventDefault()
     if(!transaction || !amount ) return;
 
+    const signedAmount = type === "expense" ? -Math.abs(amount) : Math.abs(amount)
+    console.log(typeof(signedAmount))
+
     const newTransaction = {
       id: crypto.randomUUID(),
       transaction,
-      amount: Number(amount),
+      amount: signedAmount,
     }
 
     onAddTransaction(newTransaction)
 
     setTransaction("")
     setAmount("")
+    setType("income")
   }
 
   return (
@@ -169,26 +174,54 @@ function Transaction({onAddTransaction}){
         Add new transaction
       </h3>
       <form className="" onSubmit={handleSumbit}>
-        <label htmlFor="transaction">Transaction</label>
+        <label htmlFor="transaction" className="font-semibold">
+          Transaction
+        </label>
         <input
           type="text"
           value={transaction}
-          onChange={e=>setTransaction(e.target.value)}
+          onChange={(e) => setTransaction(e.target.value)}
           className="w-full mb-3 p-2 focus:outline-none border"
           placeholder="Enter transaction name..."
         />
 
-        <label htmlFor="amount" className="flex flex-col">
-          Amount
-          <span className="text-sm">(negative-expense, positive-income)</span>
-        </label>
-        <input
-          type="number"
-          value={amount}
-          onChange={e=>setAmount(Number(e.target.value))}
-          className="w-full mb-3 p-2 focus:outline-none border"
-          placeholder="Enter amount..."
-        />
+        <div>
+          <label htmlFor="amount" className="flex flex-col font-semibold">
+            Amount
+            {/* <span className="text-sm">(negative-expense, positive-income)</span> */}
+          </label>
+          <div className="flex items-center text-center gap-5 mb-2">
+            <div className="flex items-center gap-1">
+              <input
+                type="radio"
+                name="type"
+                value="income"
+                checked={type === "income"}
+                onChange={(e) => setType(e.target.value)}
+              />
+              <label htmlFor="radio">Income</label>
+            </div>
+            <div className="flex items-center gap-1">
+              <input
+                type="radio"
+                name="type"
+                value="expense"
+                checked={type === "expense"}
+                onChange={(e) => setType(e.target.value)}
+              />
+              <label htmlFor="radio">Expense</label>
+            </div>
+          </div>
+          <input
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(Number(e.target.value))}
+            className="w-full mb-3 p-2 focus:outline-none border"
+            placeholder={
+              type === "income" ? "Enter income amount..." : "Enter expense amount..."
+            }
+          />
+        </div>
         <button className="w-full font-semibold text-center text-gray-200 p-2 bg-violet-500 hover:bg-violet-600">
           Add transaction
         </button>
