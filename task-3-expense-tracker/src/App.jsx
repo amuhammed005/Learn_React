@@ -82,13 +82,21 @@ function Balance({data, formatCurrency}){
 }
 
 function History({data, onDelete}){
+  const [select, setSelect] = useState("all");
+
+  let filteredData;
+  if (select === "all") filteredData = data;
+  if (select === "income") filteredData = data.filter(item=>item.amount > 0);
+  if (select === "expense") filteredData = data.filter(item=>item.amount < 0);
+  
   return (
     <div className="mb-8">
       <div className="flex items-center justify-between  pb-2 border-b-2 border-b-gray-400">
         <h3 className="font-medium uppercase">History</h3>
         <div className=''>
           <label htmlFor="select" className='text-xs'>Filter by:</label>
-          <select name="select" className="bg-inherit focus:outline-none">
+          <select name="select" onChange={(e)=>setSelect(e.target.value)} className="bg-inherit focus:outline-none text-md p-1 rounded-md">
+            <option value="all">All</option>
             <option value="income">Income</option>
             <option value="expense">Expense</option>
           </select>
@@ -100,7 +108,7 @@ function History({data, onDelete}){
         </p>
       ) : (
         <div className="mt-6 flex flex-col gap-3">
-          {data.map((item) => (
+          {filteredData.map((item) => (
             <Item item={item} key={item.id} onDelete={onDelete} />
           ))}
         </div>
