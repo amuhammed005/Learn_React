@@ -1,22 +1,23 @@
 import React, { useState } from 'react'
+import { MdDeleteOutline } from "react-icons/md";
 
-const dummyData = [
-  {
-    id: 1,
-    transaction: "Cash",
-    amount: 200,
-  },
-  {
-    id: 2,
-    transaction: "Book",
-    amount: 300,
-  },
-  {
-    id: 3,
-    transaction: "Food",
-    amount: 750,
-  },
-];
+// const dummyData = [
+//   {
+//     id: 1,
+//     transaction: "Cash",
+//     amount: 200,
+//   },
+//   {
+//     id: 2,
+//     transaction: "Book",
+//     amount: 300,
+//   },
+//   {
+//     id: 3,
+//     transaction: "Food",
+//     amount: 750,
+//   },
+// ];
 
 export default function App() {
   const [data, setData] = useState([])
@@ -25,11 +26,24 @@ export default function App() {
     setData([...data, newItem])
   }
 
+  function handleDelete(id){
+    setData(data=>data.filter(item=>item.id !== id))
+  }
+
+  function formatCurrency(amount){
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(amount);
+  }
+
   return (
     <div className="w-3/4 md:w-2/6 flex flex-col mx-auto my-10">
       <Logo />
-      <Balance data={data} />
-      <History data={data} />
+      <Balance data={data} formatCurrency={formatCurrency} />
+      <History data={data} onDelete={handleDelete} />
       <Transaction onAddTransaction={handleAddTransaction}/>
     </div>
   );
@@ -44,35 +58,42 @@ function Logo(){
   )
 }
 
-function Balance({data}){
-  const income = data.filter(i=>i.amount >= 0).reduce((acc, cur) => acc + cur.amount, 0);
-  const expense = data.filter(i=>i.amount < 0).reduce((acc, cur)=>acc + Math.abs(cur.amount), 0)
+function Balance({data, formatCurrency}){
+  const income = data.filter(item=>item.amount > 0).reduce((acc, cur) => acc + cur.amount, 0);
+  const expense = data.filter(item=>item.amount < 0).reduce((acc, cur)=>acc + Math.abs(cur.amount), 0)
   const balance = income - expense
 
   return (
     <div className="mb-8">
       <h3 className="font-medium uppercase">Your Balance</h3>
-      <p className="font-bold text-3xl mb-6">${balance}.00</p>
+      <p className="font-bold text-3xl mb-6">{formatCurrency(balance)}</p>
       <div className="bg-white md:px-5 lg:px-10 py-10 uppercase shadow-lg text-center flex flex-col gap-5 md:flex-row items-center justify-between">
         <span>
           <h4>Income</h4>
-          <p className="text-green-600 font-medium text-lg">${income}.00</p>
+          <p className="text-green-600 font-medium text-lg">{formatCurrency(income)}</p>
         </span>
         <span className="">
           <h4>Expense</h4>
-          <p className="text-red-600 font-medium text-lg">${expense}.00</p>
+          <p className="text-red-600 font-medium text-lg">{formatCurrency(expense)}</p>
         </span>
       </div>
     </div>
   );
 }
 
-function History({data}){
+function History({data, onDelete}){
   return (
     <div className="mb-8">
-      <h3 className="font-medium uppercase pb-2 border-b-2 border-b-gray-400">
-        History
-      </h3>
+      <div className="flex items-center justify-between  pb-2 border-b-2 border-b-gray-400">
+        <h3 className="font-medium uppercase">History</h3>
+        <div className=''>
+          <label htmlFor="select" className='text-xs'>Filter by:</label>
+          <select name="select" className="bg-inherit focus:outline-none">
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+      </div>
       {data.length === 0 ? (
         <p className="mt-2">
           No transaction history! <em>Start a new transaction.</em>
@@ -80,7 +101,7 @@ function History({data}){
       ) : (
         <div className="mt-6 flex flex-col gap-3">
           {data.map((item) => (
-            <Item item={item} key={item.id} />
+            <Item item={item} key={item.id} onDelete={onDelete} />
           ))}
         </div>
       )}
@@ -88,7 +109,7 @@ function History({data}){
   );
 }
 
-function Item({item}){
+function Item({item, onDelete}){
   return (
     <div
       className={`flex items-center justify-between border-r-4 ${
@@ -100,7 +121,15 @@ function Item({item}){
           item.transaction.charAt(0).toUpperCase() +
             item.transaction.slice(1).toLowerCase()}
       </p>
-      <span>{item.amount > 0 ? "+" : ""}{item.amount}</span>
+      <div className="flex items-center justify-center gap-1">
+        <span>
+          {item.amount > 0 ? "+" : ""}
+          {item.amount}
+        </span>
+        <button onClick={()=>onDelete(item.id)} className="text-xl text-red-500 hover:text-red-600">
+          <MdDeleteOutline />
+        </button>
+      </div>
     </div>
   );
 }
