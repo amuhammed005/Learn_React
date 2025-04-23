@@ -3,6 +3,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getLocalStorage, setLocalStorage } from './utils/storage';
+import TransactionChart from "./components/TransactionChart";
 
 
 
@@ -64,8 +65,8 @@ export default function App() {
       <div className="w-3/4 md:w-2/6 flex flex-col mx-auto my-10">
         <Logo />
         <Balance data={data} formatCurrency={formatCurrency} />
+        <TransactionChart data={data} />
         <History data={data} onDelete={handleDelete} />
-
         {openForm && (
           <Transaction
             onAddTransaction={handleAddTransaction}
