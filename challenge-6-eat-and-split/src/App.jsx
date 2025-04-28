@@ -67,16 +67,12 @@ export default function App() {
       </div>
       {
         selectedFriend && 
-      <FormSplitBill selectedFriend={selectedFriend} onSplitBill={handleSplitBill}/>
+      <FormSplitBill selectedFriend={selectedFriend} onSplitBill={handleSplitBill} key={selectedFriend.id}/>
       }
     </div>
     </>
   );
 }
-
-
-
-
 
 
 function Navbar() {
@@ -115,7 +111,6 @@ function Navbar() {
 }
 
 
-
 function Button({ children, onClick }) {
   return (
     <button className="button" onClick={onClick}>
@@ -123,6 +118,7 @@ function Button({ children, onClick }) {
     </button>
   );
 }
+
 
 function FriendList({friends, selectedFriend, onSelection}){
   return <ul>{friends.map(friend=><Friend friend={friend} key={friend.id} selectedFriend={selectedFriend} onSelection={onSelection} />)}</ul>;
@@ -148,6 +144,7 @@ function Friend({friend, selectedFriend, onSelection}){
     </li>
   );
 }  
+
 
 function FormAddFrined({onAddFriend}){
   const [name, setName] = useState("")
@@ -184,6 +181,7 @@ function FormAddFrined({onAddFriend}){
     </form>
   );
 }
+
 
 function FormSplitBill({selectedFriend, onSplitBill}){
   const [bill, setBill] = useState("")
