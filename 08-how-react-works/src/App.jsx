@@ -34,7 +34,10 @@ export default function App() {
       </div>
 
       {activeTab <= 2 ? (
-        <TabbedContent content={content.at(activeTab)} />
+        <TabbedContent
+          content={content.at(activeTab)}
+          key={content.at(activeTab).summary}
+        />
       ) : (
         <DifferentContent />
       )}
@@ -55,7 +58,7 @@ function Tab({ num, onClick, activeTab }) {
 
 function TabbedContent({ content }) {
   const [likes, setLikes] = useState(0);
-  const [showDetails, setShowDetails] = useState(false);
+  const [showDetails, setShowDetails] = useState(true);
 
   function handleSingleCount() {
     setLikes((c) => c + 1);
@@ -72,7 +75,7 @@ function TabbedContent({ content }) {
 
       <div className="controls">
         <button onClick={() => setShowDetails((show) => !show)}>
-          Hide details
+          {showDetails ? "Hide" : "Show"} details
         </button>
 
         <div className="controls-btns">
