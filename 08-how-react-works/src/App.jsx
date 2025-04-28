@@ -24,22 +24,17 @@ export default function App() {
   return (
     <div className="container">
       <div className="tabs">
-        <Tab num={0} activeTab={activeTab} onClick={setActiveTab}>
-          Tab 1
-        </Tab>
-        <Tab num={1} activeTab={activeTab} onClick={setActiveTab}>
-          Tab 2
-        </Tab>
-        <Tab num={2} activeTab={activeTab} onClick={setActiveTab}>
-          Tab 3
-        </Tab>
-        <Tab num={3} activeTab={activeTab} onClick={setActiveTab}>
-          Tab 4
-        </Tab>
+        <Tab num={0} activeTab={activeTab} onClick={setActiveTab} />
+
+        <Tab num={1} activeTab={activeTab} onClick={setActiveTab} />
+
+        <Tab num={2} activeTab={activeTab} onClick={setActiveTab} />
+
+        <Tab num={3} activeTab={activeTab} onClick={setActiveTab} />
       </div>
 
       {activeTab <= 2 ? (
-        <TabbedContent content={content.at(activeTab)}  />
+        <TabbedContent content={content.at(activeTab)} />
       ) : (
         <DifferentContent />
       )}
@@ -47,22 +42,27 @@ export default function App() {
   );
 }
 
-function Tab({num, onClick, activeTab, children}){
+function Tab({ num, onClick, activeTab }) {
   return (
-      <button className={activeTab == num ? "tab active" : "tab"} onClick={()=>onClick(num)} >{children}</button>
-  )
+    <button
+      className={activeTab == num ? "tab active" : "tab"}
+      onClick={() => onClick(num)}
+    >
+      Tab {num + 1}
+    </button>
+  );
 }
 
-function TabbedContent({content}) {
-  const [likes, setLikes] = useState(0)
-  const [showDetails, setShowDetails] = useState(false)
+function TabbedContent({ content }) {
+  const [likes, setLikes] = useState(0);
+  const [showDetails, setShowDetails] = useState(false);
 
-  function handleSingleCount(){
-    setLikes(c=>c+1)
+  function handleSingleCount() {
+    setLikes((c) => c + 1);
   }
 
-  function handleTrippleCount(){
-    setLikes(c=>c+3)
+  function handleTrippleCount() {
+    setLikes((c) => c + 3);
   }
 
   return (
@@ -91,7 +91,7 @@ function TabbedContent({content}) {
   );
 }
 
-function DifferentContent(){
+function DifferentContent() {
   return (
     <div className="content">
       <h3>I'm a DIFFERENT tab, so I reset state 💣💥</h3>
