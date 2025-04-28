@@ -38,6 +38,7 @@ body{
     background-color:  #edf2ff;
     color: #364fc7;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .tab.active {

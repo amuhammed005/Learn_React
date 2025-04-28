@@ -1,41 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
+
+const content = [
+  {
+    summary: "React is a library for building UIs",
+    details:
+      "Dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
+  {
+    summary: "State management is like giving state a home",
+    details:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
+  {
+    summary: "We can think of props as the component API",
+    details:
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+  },
+];
 
 export default function App() {
-  return <div className="container">
-    <Tab />
-    <TabContent />
-  </div>;
-}
+  const [activeTab, setActiveTab] = useState(0);
 
-function Tab() {
   return (
-    <div className="tabs">
-      <div className="tab active">Tab 1</div>
-      <div className="tab">Tab 2</div>
-      <div className="tab">Tab 3</div>
-      <div className="tab">Tab 4</div>
+    <div className="container">
+      <div className="tabs">
+        <Tab num={0} activeTab={activeTab} onClick={setActiveTab}>
+          Tab 1
+        </Tab>
+        <Tab num={1} activeTab={activeTab} onClick={setActiveTab}>
+          Tab 2
+        </Tab>
+        <Tab num={2} activeTab={activeTab} onClick={setActiveTab}>
+          Tab 3
+        </Tab>
+        <Tab num={3} activeTab={activeTab} onClick={setActiveTab}>
+          Tab 4
+        </Tab>
+      </div>
+
+      {activeTab <= 2 ? (
+        <TabbedContent content={content.at(activeTab)}  />
+      ) : (
+        <DifferentContent />
+      )}
     </div>
   );
 }
 
-function TabContent() {
+function Tab({num, onClick, activeTab, children}){
+  return (
+      <button className={activeTab == num ? "tab active" : "tab"} onClick={()=>onClick(num)} >{children}</button>
+  )
+}
+
+function TabbedContent({content}) {
+  const [likes, setLikes] = useState(0)
+  const [showDetails, setShowDetails] = useState(false)
+
+  function handleSingleCount(){
+    setLikes(c=>c+1)
+  }
+
+  function handleTrippleCount(){
+    setLikes(c=>c+3)
+  }
+
   return (
     <div className="content">
-      <h2>React is a library for building UIs</h2>
-      <p>
-        Dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-        nulla pariatur. Occaecat cupidatat non proident, sunt in culpa qui
-        officia deserunt mollit anim id est laborum.
-      </p>
+      <h2>{content.summary}</h2>
+      {showDetails && <p>{content.details}</p>}
 
       <div className="controls">
-        <button>Hide details</button>
+        <button onClick={() => setShowDetails((show) => !show)}>
+          Hide details
+        </button>
 
         <div className="controls-btns">
-          <span>0</span>
+          <span>{likes}</span>
           <span>❤</span>
-          <button>+</button>
-          <button>+++</button>
+          <button onClick={handleSingleCount}>+</button>
+          <button onClick={handleTrippleCount}>+++</button>
         </div>
       </div>
 
@@ -43,6 +87,14 @@ function TabContent() {
         <button>Undo</button>
         <button>Undo in 2s</button>
       </div>
+    </div>
+  );
+}
+
+function DifferentContent(){
+  return (
+    <div className="content">
+      <h3>I'm a DIFFERENT tab, so I reset state 💣💥</h3>
     </div>
   );
 }
