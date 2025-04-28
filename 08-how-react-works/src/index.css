@@ -8,3 +8,87 @@ body{
     font-family: sans-serif;
     color: #333;
 }
+
+.container{
+    width: 600px;
+    margin: 4rem auto;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background-color: #edf2ff;
+    padding: 2rem;
+    border-radius: 10px;
+    color: #364fc7;
+}
+
+.tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.tab{
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: .5rem 1rem;
+    background-color:  #edf2ff;
+    color: #364fc7;
+    border-radius: 10px;
+}
+
+.tab.active {
+    background-color: #364fc7;
+    color: #fff;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.controls>button{
+    text-decoration: underline;
+    color: #364fc7;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.controls-btns {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+.controls-btns span{
+    font-size: 1.2rem;
+}
+.controls-btns button{
+    background-color: red;
+    color: #fff;
+    padding: 4px 6px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.undo-buttons{
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+.undo-buttons>button{
+    background-color: #364fc7;
+    color: #fff;
+    font-weight: bold;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
