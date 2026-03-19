@@ -6,14 +6,14 @@ function WatchListItem({ movie, onRemove }) {
   const navigate = useNavigate();
 
   return (
-    <div className="overflow-hidden flex gap-3 border border-amber-500 rounded-lg hover:scale-105 transition-transform duration-300">
+    <div className="overflow-hidden flex gap-4 border border-amber-500 rounded-lg hover:scale-105 transition-transform duration-300">
       <img
         onClick={() => navigate(`movie/${movie.imdbID}`)}
         src={movie.Poster}
         alt={`${movie.Title} Poster`}
         className="w-full h-72 md:h-64 object-cover cursor-pointer"
       />
-      <div>
+      <div className="mt-4">
         <p className="text-md mb-2 cursor-pointer">{movie.Title}</p>
         <p className="mb-2">{movie.Year}</p>
         <div className="flex items-center justify-between">
