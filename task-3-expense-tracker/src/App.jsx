@@ -65,7 +65,8 @@ export default function App() {
       <div className="w-3/4 md:w-2/6 flex flex-col mx-auto my-10">
         <Logo />
         <Balance data={data} formatCurrency={formatCurrency} />
-        <TransactionChart data={data} />
+
+        { data.length > 0 && <TransactionChart data={data} /> }
         <History data={data} onDelete={handleDelete} />
         {openForm && (
           <Transaction
@@ -238,7 +239,7 @@ function Transaction({onAddTransaction, setOpenForm}){
 
         <div>
           <label htmlFor="amount" className="flex flex-col font-semibold">
-            Amount
+            Type 
             {/* <span className="text-sm">(negative-expense, positive-income)</span> */}
           </label>
           <div className="flex items-center text-center gap-5 mb-2">
@@ -279,6 +280,10 @@ function Transaction({onAddTransaction, setOpenForm}){
               </label>
             </div>
           </div>
+          <label htmlFor="amount" className="flex flex-col font-semibold">
+            Amount
+            {/* <span className="text-sm">(negative-expense, positive-income)</span> */}
+          </label>
           <input
             type="number"
             value={amount}
